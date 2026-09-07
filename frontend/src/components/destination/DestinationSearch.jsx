@@ -1,3 +1,64 @@
 import { useState } from 'react'
 import { request } from '../../services/api'
-export default function DestinationSearch({ destinations, form, setForm, setDestinations, setMessage }) { const [search, setSearch] = useState(''); const [searching, setSearching] = useState(false); const findPlaces = async (event) => { event.preventDefault(); if (search.trim().length < 2) return; setSearching(true); try { const matches = await request(`/api/v1/destinations/search?q=${encodeURIComponent(search)}`); setDestinations(matches); setMessage(`${matches.length} destinations found. Pick one to use in your trip.`) } catch { setMessage('Destination search is temporarily unavailable.') } finally { setSearching(false) } }; return <section className="panel destinations"><div className="panel-heading"><div><p className="eyebrow">02 / SEARCH THE WORLD</p><h2>Where to next?</h2></div></div><form className="search-box" onSubmit={findPlaces}><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search any city or country..." /><button className="primary compact" type="submit">{searching ? 'Searching...' : 'Search'}</button></form><div className="destination-grid">{destinations.map((destination) => <button className={`destination-card ${String(form.destination_id) === String(destination.id) ? 'chosen' : ''}`} key={destination.id} onClick={() => setForm({ ...form, destination_id: String(destination.id) })}><div className={`destination-image image-${destination.id % 5}`}><span>{destination.category}</span></div><div className="destination-info"><strong>{destination.name}</strong><span>{destination.country}</span><small>From ${destination.average_daily_cost}/day</small></div></button>)}</div></section> }
+export default function DestinationSearch({
+  destinations,
+  form,
+  setForm,
+  setDestinations,
+  setMessage,
+}) {
+  const [search, setSearch] = useState('')
+  const [searching, setSearching] = useState(false)
+  const findPlaces = async (event) => {
+    event.preventDefault()
+    if (search.trim().length < 2) return
+    setSearching(true)
+    try {
+      const matches = await request(`/api/v1/destinations/search?q=${encodeURIComponent(search)}`)
+      setDestinations(matches)
+      setMessage(`${matches.length} destinations found. Pick one to use in your trip.`)
+    } catch {
+      setMessage('Destination search is temporarily unavailable.')
+    } finally {
+      setSearching(false)
+    }
+  }
+  return (
+    <section className="panel destinations">
+      <div className="panel-heading">
+        <div>
+          <p className="eyebrow">02 / SEARCH THE WORLD</p>
+          <h2>Where to next?</h2>
+        </div>
+      </div>
+      <form className="search-box" onSubmit={findPlaces}>
+        <input
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder="Search any city or country..."
+        />
+        <button className="primary compact" type="submit">
+          {searching ? 'Searching...' : 'Search'}
+        </button>
+      </form>
+      <div className="destination-grid">
+        {destinations.map((destination) => (
+          <button
+            className={`destination-card ${String(form.destination_id) === String(destination.id) ? 'chosen' : ''}`}
+            key={destination.id}
+            onClick={() => setForm({ ...form, destination_id: String(destination.id) })}
+          >
+            <div className={`destination-image image-${destination.id % 5}`}>
+              <span>{destination.category}</span>
+            </div>
+            <div className="destination-info">
+              <strong>{destination.name}</strong>
+              <span>{destination.country}</span>
+              <small>From ${destination.average_daily_cost}/day</small>
+            </div>
+          </button>
+        ))}
+      </div>
+    </section>
+  )
+}

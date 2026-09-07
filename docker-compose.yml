@@ -6,11 +6,11 @@ services:
       POSTGRES_USER: tripiq
       POSTGRES_PASSWORD: tripiq
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tripiq -d tripiq"]
+      test: ['CMD-SHELL', 'pg_isready -U tripiq -d tripiq']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -25,7 +25,7 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "8000:8000"
+      - '8000:8000'
 
   frontend:
     build:
@@ -35,7 +35,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "5173:5173"
+      - '5173:5173'
 
 volumes:
   postgres_data:
