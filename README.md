@@ -41,4 +41,4 @@ The initial migration creates `users`, `destinations`, `trips`, `itineraries`, a
 
 ## GitHub upload
 
-This repository intentionally excludes dependencies, secrets, Python caches, build output, and local Docker data. Copy `backend/.env.example` and `frontend/.env.example` only when local environment configuration is needed.
+This repository intentionally excludes dependencies, secrets, Python caches, build output, and local Docker data. Copy `backend/.env.example` and `frontend/.env.example` only when local environment configuration is needed .
