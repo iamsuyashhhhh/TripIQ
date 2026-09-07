@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react'
-
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+import { request } from './services/api'
 const emptyForm = { title: '', destination_id: '', start_date: '', end_date: '', budget: 2500, travelers: 2, interests: '', travel_style: 'balanced' }
-
-async function request(path, options = {}) {
-  const response = await fetch(`${API}${path}`, { headers: { 'Content-Type': 'application/json' }, ...options })
-  if (!response.ok) throw new Error((await response.json()).detail || 'Request failed')
-  return response.json()
-}
 
 export default function App() {
   const [destinations, setDestinations] = useState([]); const [trips, setTrips] = useState([]); const [form, setForm] = useState(emptyForm)
